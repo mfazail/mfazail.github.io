@@ -7,7 +7,7 @@
               content="IE=edge" />
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0" />
-        <title>CodeF</title>
+        <title>Sidebar - CodeF</title>
 
         <script src="https://cdn.tailwindcss.com"></script>
         <script defer src="https://unpkg.com/alpinejs@3.7.1/dist/cdn.min.js"></script>
@@ -59,7 +59,7 @@
              x-bind:class="{'w-64':$store.sidebar.full, 'w-64 sm:w-20':!$store.sidebar.full,'top-0 left-0':$store.sidebar.navOpen,'top-0 -left-64 sm:left-0':!$store.sidebar.navOpen}">
 
             <h1 class="text-white font-black py-4"
-                x-bind:class="$store.sidebar.full ? 'text-2xl px-4' : 'text-xl px-4 xm:px-2'">LOGO</h1>
+                x-bind:class="$store.sidebar.full ? 'text-2xl px-4' : 'text-xl px-4 xm:px-2'">CodeF</h1>
 
             <div class="px-4 space-y-2">
 
@@ -335,7 +335,7 @@
 
 
 
-        <script src="./js/app.js"></script>
+        <script src="./app.js"></script>
     </body>
 
 </html>
