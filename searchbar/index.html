@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searchbar / Command Palette - CodeF</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<style>
+    /* Hide Element while Loading Page  */
+    [x-cloak] {
+        display: none;
+    }
+    .no-scroll-bar::-webkit-scrollbar{
+        display: none;
+    }
+
+</style>
+
+<body class="h-screen w-full bg-gray-200">
+    <nav
+        x-data="spotlight"
+        class="w-full bg-white">
+
+        <div class="max-w-7xl mx-auto px-2 flex justify-between items-center">
+
+            <!-- Logo -->
+            <h1 class="uppercase font-black text-2xl">Logo</h1>
+
+            <!-- Menu Items -->
+            <button
+                @click="showSearchBar"
+                @keydown.alt.period.window="showSearchBar"
+                @keydown.escape.window="closeSearchBar"
+                class="flex space-x-3 items-center bg-gray-700 hover:bg-gray-600 border border-gray-600 px-4 py-2 my-2 rounded-md cursor-pointer">
+
+                <!-- Search Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+
+                <h1 class="text-gray-400 font-sans">Search Clients...</h1>
+                <h2 class="font-sm font-sans text-gray-400">Alt .</h2>
+
+            </button>
+        </div>
+
+        <!-- Search Overlay -->
+        <div x-show="show"
+            x-transition.opacity.duration.300ms
+            class="bg-gray-500 bg-opacity-50 fixed top-0 w-full h-screen flex justify-center items-center">
+
+            <!-- Search Input Div -->
+            <div @click.outside="closeSearchBar"
+                class="absolute top-40 bg-gray-800 rounded-md flex items-center px-3 lg:w-2/5 w-3/4">
+
+                <!-- Input -->
+                <input
+                    @keydown.arrow-down="next"
+                    @keydown.arrow-up="previous"
+                    @keydown.enter="select"
+                    x-ref="input"
+                    x-model="query"
+                    placeholder="Search..."
+                    class="bg-transparent focus:outline-none py-3 px-4 lg:text-4xl md:text-3xl text-2xl w-full text-gray-200"
+                    type="text">
+                <!-- Search Icon -->
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="lg:h-10 lg:w-10 md:w-8 md:h-8 h-6 w-6 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            
+            <!-- Query Results -->
+            <div x-ref="parent"
+                x-transition.origin.top
+                x-show="query"
+                class="absolute md:top-64 top-60 bg-gray-800 rounded-md lg:w-2/5 w-3/4 overflow-y-auto max-h-96 no-scroll-bar">
+                
+                <!-- Show if no results found -->
+                <div
+                    x-show="query && queryFilter.length == 0"
+                    class="py-1 px-3 text-gray-400">
+                    <h1>No Clients Found</h1>
+                </div>
+
+                <!-- Results -->
+                <div x-show="query != ''">
+
+                    <template x-for="(item,index) in queryFilter" :key="index">
+
+                        <div
+                            :id="'item-'+ index"
+                            :class="currentIndex == index ? 'bg-gray-700':''"
+                            class="flex items-center space-x-2 px-2 hover:bg-gray-700 cursor-pointer">
+
+                            <!-- Profile Avatar -->
+                            <img :src="item.avatar" class="w-10 h-10 rounded-full object-cover object-center" :alt="item.first_name">
+
+                            <!-- Profile Details -->
+                            <div class=" py-2">
+                                <h1 class="text-gray-400" x-text="item.first_name + ' '+ item.last_name"></h1>
+                                <h1 class="text-gray-400 text-sm" x-text="item.email"></h1>
+                            </div>
+
+                        </div>
+
+                    </template>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script src="./main.js"></script>
+</body>
+
+</html>
